@@ -1,0 +1,11 @@
+---
+# ansible-playbook -i localhost, ./facts.yaml  
+
+- hosts: all
+  connection: local
+
+  tasks:
+
+  - name: Show facts available on the system
+    ansible.builtin.debug:
+      var: ansible_facts

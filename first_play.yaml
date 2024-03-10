@@ -1,0 +1,13 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: no
+
+  tasks:
+
+  - name: Say 'Hi'
+    ansible.builtin.command: echo "Hi"
+
+  - name: Write a debug message
+    ansible.builtin.debug:
+      msg: 'This is a debug message'

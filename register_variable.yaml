@@ -1,0 +1,29 @@
+---
+# ansible-playbook -i localhost, ./register_variable.yaml
+
+- hosts: all
+  connection: local
+
+  tasks:
+
+  - name: Say 'Hi''
+    ansible.builtin.command: echo "Hi"
+    register: hi_output
+
+  - name: Write stdout of 'Say Hi' task
+    ansible.builtin.debug:
+      msg: "The 'Say Hi' task returned: {{ hi_output.stdout }}"
+
+  - name: Write entire output of 'Say Hi' task
+    ansible.builtin.debug:
+      var: hi_output
+
+  # Another example, note how the variables both have YAML data.
+
+  - name: Run ping task
+    ansible.builtin.ping:
+    register: ping_output
+
+  - name: Write entire output of ping task
+    ansible.builtin.debug:
+      var: ping_output

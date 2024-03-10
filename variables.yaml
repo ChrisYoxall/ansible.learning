@@ -1,0 +1,72 @@
+---
+# ansible-playbook -i localhost, ./variables.yaml
+
+- hosts: all
+  connection: local
+  gather_facts: false
+
+  vars:
+    my_env_var: "{{ lookup('env','FOO') }}"
+    rockers:
+      drums: "John Bonham"
+      bass: "John Paul Jones"
+      guitar: "Jimmy Page"
+      vocals: "Robert Plant"
+
+  tasks:
+
+  - name: "Write the value of my_env_var"
+    ansible.builtin.debug:
+      msg: "The value of my_env_var is: {{ my_env_var }}"
+
+  - name: "set my_env_var to x"
+    ansible.builtin.set_fact:
+      my_env_var: "x"
+
+  - name: "Write the value of my_env_var"
+    ansible.builtin.debug:
+      msg: "The value of my_env_var is: {{ my_env_var }}"
+
+  - name: "set my_env_var to z if it is x"
+    ansible.builtin.set_fact:
+      my_env_var: "z"
+    when: my_env_var == "x" # change this to decide whether my_env_var should be set to "z"
+
+  - name: "Write the value of my_env_var"
+    ansible.builtin.debug:
+      msg: "The value of my_env_var is: {{ my_env_var }}"
+
+  - name: "Write the value of rockers"
+    ansible.builtin.debug:
+      msg: "The value of rockers is: {{ rockers }}"
+
+  - name: "Reference 'Jimmy Page' using both bracket and dot notation"
+    ansible.builtin.debug:
+      msg: "The value of rockers.guitar is: {{ rockers.guitar }} and the value of rockers['guitar'] is: {{ rockers['guitar'] }}"
+
+  # Part of what this prints is the gathered facts which makes this debug very large. To disable gathering facts to test this.
+  - name: "View the hostvars special variable"
+    ansible.builtin.debug:
+      msg: "The value of hostvars is: {{ hostvars }}"
+
+  - name: "View the groups special variable (which is inside hostvars)"
+    ansible.builtin.debug:
+      msg: "The value of groups is: {{ groups }}"
+
+  # Will fail if gather_facts is set to false
+  # - name: "View dns from the gathered facts"
+  #   ansible.builtin.debug:
+  #     msg: "{{ ansible_facts.dns }}"
+
+  - name: "Set a test fact"
+    ansible.builtin.set_fact:
+      test_fact: "test_value"
+
+  - name: "Write the value of test_fact"
+    ansible.builtin.debug:
+      msg: "The value of test_fact is: {{ test_fact }}"
+
+  - name: "Note how the value of test_fact is not available in the ansible_facts"
+    ansible.builtin.debug:
+      msg: "{{ ansible_facts }}"
+    ignore_errors: yes
