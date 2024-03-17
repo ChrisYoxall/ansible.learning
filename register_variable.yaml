@@ -18,7 +18,7 @@
     ansible.builtin.debug:
       var: hi_output
 
-  # Another example, note how the variables both have YAML data.
+  # Another example, note how both the registered variables are YAML data.
 
   - name: Run ping task
     ansible.builtin.ping:

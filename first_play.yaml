@@ -1,4 +1,6 @@
 ---
+# ansible-playbook -i localhost, ./first_play.yaml 
+
 - hosts: all
   connection: local
   gather_facts: no

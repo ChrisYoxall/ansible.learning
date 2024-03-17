@@ -6,6 +6,22 @@
 
   tasks:
 
-  - name: Show facts available on the system
+  # - name: Show facts available on the system
+  #   ansible.builtin.debug:
+  #     var: ansible_facts
+
+  - name: Reference a specific fact - the Python version
     ansible.builtin.debug:
-      var: ansible_facts
+      var: ansible_facts['python']['executable']
+
+  - name: Print inventory_hostname
+    ansible.builtin.debug:
+      var: inventory_hostname
+
+  - name: Print ansible_hostname
+    ansible.builtin.debug:
+      var: ansible_hostname
+
+  - name: Print ansible_fqdn
+    ansible.builtin.debug:
+      var: ansible_fqdn
